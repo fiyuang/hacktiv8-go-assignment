@@ -47,8 +47,7 @@ func InitializeDB() {
 			order_id int NOT NULL,
 			item_code VARCHAR(255) NOT NULL,
 			description VARCHAR(255) NOT NULL,
-			quantity int NOT NULL,
-			ordered_at timestamptz DEFAULT now()
+			quantity int NOT NULL
 		)
 	`
 
