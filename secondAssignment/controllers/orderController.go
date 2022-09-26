@@ -68,6 +68,73 @@ func CreateOrder(ctx *gin.Context) {
 	})
 }
 
+func GetOrder(ctx *gin.Context) {
+	db := db.GetDB()
+
+	var results = []Order{}
+
+	sqlStatement := `SELECT * from orders`
+
+	rows, err := db.Query(sqlStatement)
+
+	if err != nil {
+		panic(err)
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var Order = Order{}
+
+		err = rows.Scan(&Order.OrderID, &Order.CustomerName, &Order.OrderedAt)
+
+		if err != nil {
+			panic(err)
+		}
+
+		items, err := GetItems(Order.OrderID)
+		if err != nil {
+			panic(err)
+		}
+		Order.Item = items
+
+		results = append(results, Order)
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{
+		"success": true,
+		"message": "success",
+		"data":    results,
+	})
+}
+
+func GetItems(OrderID int) ([]Item, error) {
+	db := db.GetDB()
+
+	sqlStatement := `SELECT * from items WHERE order_id= $1`
+
+	rows, err := db.Query(sqlStatement, OrderID)
+
+	if err != nil {
+		panic(err)
+	}
+	defer rows.Close()
+
+	var results = []Item{}
+
+	for rows.Next() {
+		var Item = Item{}
+
+		err = rows.Scan(&Item.ItemID, &Item.ItemCode, &Item.Description, &Item.Description, &Item.Quantity)
+
+		if err != nil {
+			panic(err)
+		}
+
+		results = append(results, Item)
+	}
+	return results, nil
+}
+
 func UpdateOrder(ctx *gin.Context) {
 	db := db.GetDB()
 	id := ctx.Param("orderId")
