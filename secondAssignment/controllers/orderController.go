@@ -59,11 +59,8 @@ func CreateOrder(ctx *gin.Context) {
 		}
 	}
 
-	defer db.Close()
-
 	ctx.JSON(http.StatusOK, gin.H{
 		"success": true,
-		"message": "success",
 		"data":    newOrder,
 	})
 }
@@ -102,7 +99,6 @@ func GetOrder(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, gin.H{
 		"success": true,
-		"message": "success",
 		"data":    results,
 	})
 }
@@ -117,7 +113,6 @@ func GetItems(OrderID int) ([]Item, error) {
 	if err != nil {
 		panic(err)
 	}
-	defer rows.Close()
 
 	var results = []Item{}
 
@@ -159,11 +154,8 @@ func UpdateOrder(ctx *gin.Context) {
 		}
 	}
 
-	defer db.Close()
-
 	ctx.JSON(http.StatusOK, gin.H{
 		"success": true,
-		"message": "success",
 		"data":    newOrder,
 	})
 }
@@ -186,6 +178,6 @@ func DeleteOrder(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, gin.H{
 		"success": true,
-		"message": "success",
+		"data":    nil,
 	})
 }
