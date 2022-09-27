@@ -172,7 +172,7 @@ func DeleteOrder(ctx *gin.Context) {
 
 	deleteItem := `DELETE from items WHERE order_id = $1;`
 	_, err2 := db.Exec(deleteItem, id)
-	if err != nil {
+	if err2 != nil {
 		panic(err2)
 	}
 
