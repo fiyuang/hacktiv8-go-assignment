@@ -41,9 +41,11 @@ func middleware(next http.Handler) http.Handler {
 
 func autoReload(w http.ResponseWriter, r *http.Request) {
 	for {
+		min := 1
+		max := 100
 		rand.Seed(time.Now().Unix())
-		numberWater := rand.Intn(100)
-		numberWind := rand.Intn(100)
+		numberWater := rand.Intn(max - min)
+		numberWind := rand.Intn(max - min)
 
 		updateData(numberWater, numberWind)
 		logWater(numberWater, numberWind)
@@ -76,7 +78,7 @@ func updateData(numberWater int, numberWind int) {
 }
 
 func logWater(numberWater int, numberWind int) {
-	if numberWater >= 0 && numberWater < 6 {
+	if numberWater < 6 {
 		result := "Aman"
 		fmt.Println("Status Water: ", result)
 	} else if numberWater > 6 && numberWater <= 15 {
@@ -91,7 +93,7 @@ func logWater(numberWater int, numberWind int) {
 }
 
 func logWind(numberWater int, numberWind int) {
-	if numberWind >= 0 && numberWind < 6 {
+	if numberWind < 6 {
 		result := "Aman"
 		fmt.Println("Status Wind: ", result)
 	} else if numberWind > 6 && numberWind <= 15 {
